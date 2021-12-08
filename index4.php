@@ -1,8 +1,8 @@
 <?php
-session_start();
 require_once 'configDB.php';
-?>
+session_start();
 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +11,7 @@ require_once 'configDB.php';
     <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="js/JQuery3.3.1.js"></script>
     <title>STUD_FILES</title>
 </head>
 <body>
@@ -29,54 +30,36 @@ require_once 'configDB.php';
         </ul>
     </nav>
 </div>
-<div id="main_container__detail_page">
-<?php
-$query = 'SELECT `user_name`, `name`, `date_added`, `description` FROM `post_file` `pf`, `user` `u` WHERE `id_post` = :id_post AND `u`.`id_user` = `pf`.`id_user`';
-if (!empty($pdo)) {
-    $params = [
-        'id_post' => $_SESSION['id_post']
-    ];
-    $stmt = $pdo->prepare($query);
-    $stmt->execute($params);
-    while($row = $stmt->fetch(PDO::FETCH_LAZY)) {
-?>
-        <div class="main">
-            <div  class="main-container1">
-                <div class="main-content">
-                    <h1>
-                        <?=$row->name?>
-                    </h1>
 
-                    <p1 class="modal-input1">
-                        <?=$row->description?>
-                    </p1>
 
-                </div>
-
-                <div class="main-img-container">
-                    <img src="images/pic5.svg" alt="" id="main-img">
-                </div>
+<!-- Cards -->
+<div class="services" id="services">
+    <h1>Мои файлы</h1>
+    <div class="services_wrapper">
+        <?php
+        $query = 'SELECT `id_post`, `name`,  `date_added` FROM `post_file` ORDER BY `id_post` DESC';
+        if (!empty($pdo)) {
+        $stmt = $pdo->prepare($query);
+        $stmt->execute();
+        while($row = $stmt->fetch(PDO::FETCH_LAZY)){
+        ?>
+            <div class="services_card">
+                <h2><?=$row->name?></h2>
+                <p><?=$row->date_added?></p>
+                <div class="services_btn"><button data-id="<?=$row->id_post?>"  class="detail_page_button">
+                            Показать</button></div>
             </div>
-        </div>
-        <!-- Information -->
-        <div class="services4" id="services">
-            <div class="services3" id="services">
-                <div class="services2" id="services">
-                    <h1><?=$row->date_added?></h1>
-                    <h1><?=$row->user_name?></h1>
-                </div>
-                <button class="main-btn1">
-                    <h1 href="#">
-                        Скачать
-                    </h1>
-                </button>
-            </div>
-        </div>
-<?php
-    }
-}
-?>
+        <?php
+        }
+        }
+        ?>
+
+    </div>
+    <button class="btn-services"><a href="#">
+        Показать ещё
+    </a></button>
 </div>
+
 
 <!-- Footer -->
 <div class="footer_container">
@@ -94,8 +77,16 @@ if (!empty($pdo)) {
         </div>
     </section>
 </div>
-
-<script src="js/app.js">
+<script type="text/javascript" src="js/JQuery3.3.1.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
+<script type="text/javascript">
+    function checkCheckBoxRegistration(){
+        if($('#box1').is(':checked') ) {
+            document.getElementById("modal-input-submit").style.visibility = "visible";
+        } else {
+            document.getElementById("modal-input-submit").style.visibility = "hidden";
+        }
+    }
 </script>
 </body>
 </html>

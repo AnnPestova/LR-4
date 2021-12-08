@@ -1,3 +1,100 @@
+// проверка, что пользователь вошел в лк
+$.ajax({
+    url: 'include/check_token.php',
+    dataType: 'json',
+    success: function (data) {
+        if (data['status']) {
+            window.location.href = '../index1.php';
+        }
+    }
+})
+
+//авторизация
+let btn = document.getElementById('modal-input-submit');
+
+$('#modal-input-submit-auth').click(function (){
+    let tel = $('input[name="tel_auth"]').val().trim(),
+        password_auth = $('input[name="password_auth"]').val().trim();
+    let formData = new FormData();
+    formData.append('tel_auth', tel);
+    formData.append('password_auth', password_auth);
+    $.ajax({
+        url: 'include/sign-in.php',
+        type: 'POST',
+        dataType: 'json',
+        processData: false,
+        contentType: false,
+        cache: false,
+        data: formData,
+        success(data) {
+            if(data['status']){
+                window.location.href = '../index1.php';
+            }
+            else{
+                $('#info-error2').text(data['message']);
+            }
+        }
+    });
+})
+
+$('#modal-input-submit').click(function (){
+    let name_reg = $('input[name="name_reg"]').val().trim(),
+        email_reg = $('input[name="email_reg"]').val().trim(),
+        tel_reg = $('input[name="tel_reg"]').val().trim(),
+        password_reg = $('input[name="password_reg"]').val().trim(),
+        password_confirm_reg = $('input[name="password_confirm_reg"]').val().trim(),
+        flag = true;
+    if(name_reg === ''){
+        flag = false;
+        $('#info-error').text('Введите имя');
+    }
+    else if(email_reg === ''){
+        flag = false;
+        $('#info-error').text('Введите email');
+    }
+    else if(tel_reg === ''){
+        flag = false;
+        $('#info-error').text('Введите телефон');
+    }
+    else if(password_reg === ''){
+        flag = false;
+        $('#info-error').text('Введите пароль');
+    }
+    else if(password_confirm_reg === ''){
+        flag = false;
+        $('#info-error').text('Подтвердите пароль');
+    }
+    else if(password_reg !== password_confirm_reg){
+        flag = false;
+        $('#info-error').text('Пароли не совпадают');
+    }
+    if(flag === true){
+        let formData = new FormData();
+        formData.append('name', name_reg);
+        formData.append('email_reg', email_reg);
+        formData.append('tel', tel_reg);
+        formData.append('password_reg', password_reg);
+        formData.append('password_confirm', password_confirm_reg);
+        $.ajax({
+            url: 'include/sign-up.php',
+            type: 'POST',
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            cache: false,
+            data: formData,
+            success(data) {
+                if(data['status']){
+                    window.location.href = '../index1.php';
+                }
+                else{
+                    $('#info-error').text(data['message']);
+                }
+            }
+        });
+    }
+});
+
 const menu = document.querySelector('#mobile-menu');
 const menuLinks = document.querySelector('.nav-menu');
 
@@ -75,6 +172,10 @@ window.addEventListener('click',(e) => {
     }
 });
 
+
+
+
+
 //Modal3
 const modal11 = document.getElementById('4email-modal');
 const openBtn11 = document.querySelector('.btn-services2');
@@ -96,12 +197,12 @@ window.addEventListener('click',(e) => {
 
 
 //form validation//
-const form = document.querySelector('form');
-const name = document.querySelector('name');
-const email = document.querySelector('email');
-const tel = document.querySelector('tel');
-const password = document.querySelector('password');
-const passwordConfirm = document.querySelector('password-confirm');
+const form = $('#new-form');
+const name = $('#name');
+const email = $('#email');
+const tel = $('#tel');
+const password = $('#password');
+const passwordConfirm = $('#password-confirm');
 
 //show error message//
 function showError(input, message){
@@ -153,7 +254,7 @@ function getFieldName(input){
 }
 
 //event Listener//
-form.addEventListener('submit', (e) => {
+form.submit(function (){
     e.preventDefault();
 
     checkRequired([name,email,tel,password,passwordConfirm]);
@@ -161,18 +262,28 @@ form.addEventListener('submit', (e) => {
     checkLength(password, 8,25);
     checkLength(passwordConfirm,8,25);
     passwordMatch(password,passwordConfirm);
-})
-
-//formdata//
-$('#modal-input-submit').click(function (event) {
-
-    event.preventDefault();
-
-    const form = document.getElementById('new-form');
-    const formData = new FormData(form);
-    const values = Object.fromEntries(formData.entries());
-    console.log('Authorisation', values);
-
 });
+
+
+$('.detail_page_button').click(function (){
+
+    let id_post = ($(this).attr('data-id'));
+
+    $.ajax({
+        url: 'detail_page.php',
+        type: 'GET',
+        data:{
+            id_post: id_post
+        },
+        success : function(data){
+            window.location.href = 'index2.php';
+        }
+    })
+});
+
+
+
+
+
 
 

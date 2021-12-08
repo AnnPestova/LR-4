@@ -17,5 +17,12 @@ window.addEventListener('click',(e) => {
     }
 })
 
+$('#exit_account_button').click(function (){
+    $.ajax({
+        url: 'include/exit.php'
+    });
+    window.location.href = 'index.php';
+});
+
 
 

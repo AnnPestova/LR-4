@@ -1,3 +1,6 @@
+<?php
+require_once 'session.start.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,8 +23,8 @@
         </div>
         <ul class="nav-menu">
             <li><a href="#home" class="nav-links">Главная</a></li>
-            <li><a href="#" class="nav-links nav-links-btn" id="reg">Здравствуйте, Анна</a></li>
-            <li><a href="index.html" class="nav-links nav-links-btn2">Выход</a></li>
+            <li><a href="personal_page.php" class="nav-links nav-links-btn" id="reg">Здравствуйте, <?=$_SESSION['user']['user_name']?></a></li>
+            <li><a id="exit_account_button" class="nav-links nav-links-btn2">Выход</a></li>
         </ul>
     </nav>
 </div>
@@ -46,7 +49,6 @@
         </div>
     </div>
 </div>
-
 
 <!-- add_post -->
 <div class="modal3" id="4email-modal">
@@ -81,7 +83,6 @@
     </div>
 </div>
 
-
 <!-- Cards -->
 <div class="services1" id="services">
     <h1>Доступные файлы</h1>
@@ -90,47 +91,46 @@
         <div class="services1_card">
             <h2>Название</h2>
             <p>Дата добавления</p>
-            <div class="services1_btn"><button><a href="index2.html">Показать</a></button></div>
+            <div class="services1_btn"><button><a href="index2.php">Показать</a></button></div>
         </div>
         <div class="services1_card">
             <h2>Название</h2>
             <p>Дата добавления</p>
-            <div class="services1_btn"><button><a href="index2.html">Показать</a></button></div>
+            <div class="services1_btn"><button><a href="index2.php">Показать</a></button></div>
         </div>
         <div class="services1_card">
             <h2>Название</h2>
             <p>Дата добавления</p>
-            <div class="services1_btn"><button><a href="index2.html">Показать</a></button></div>
+            <div class="services1_btn"><button><a href="index2.php">Показать</a></button></div>
         </div>
         <div class="services1_card">
             <h2>Название</h2>
             <p>Дата добавления</p>
-            <div class="services1_btn"><button><a href="index2.html">Показать</a></button></div>
+            <div class="services1_btn"><button><a href="index2.php">Показать</a></button></div>
         </div>
         <div class="services1_card">
             <h2>Название</h2>
             <p>Дата добавления</p>
-            <div class="services1_btn"><button><a href="index2.html">Показать</a></button></div>
+            <div class="services1_btn"><button><a href="index2.php">Показать</a></button></div>
         </div>
         <div class="services1_card">
             <h2>Название</h2>
             <p>Дата добавления</p>
-            <div class="services1_btn"><button><a href="index2.html">Показать</a></button></div>
+            <div class="services1_btn"><button><a href="index2.php">Показать</a></button></div>
         </div>
         <div class="services1_card">
             <h2>Название</h2>
             <p>Дата добавления</p>
-            <div class="services1_btn"><button><a href="index2.html">Показать</a></button></div>
+            <div class="services1_btn"><button><a href="index2.php">Показать</a></button></div>
         </div>
         <div class="services1_card">
             <h2>Название</h2>
             <p>Дата добавления</p>
-            <div class="services1_btn"><button><a href="index2.html">Показать</a></button></div>
+            <div class="services1_btn"><button><a href="index2.php">Показать</a></button></div>
         </div>
     </div>
     <button class="btn-services1"><a href="#">Показать ещё</a></button>
 </div>
-
 
 <!-- Footer -->
 <div class="footer_container">
@@ -148,7 +148,7 @@
         </div>
     </section>
 </div>
-
+<script type="text/javascript" src="js/JQuery3.3.1.js"></script>
 <script src="js/app2.js">
 </script>
 </body>

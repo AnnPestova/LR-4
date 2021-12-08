@@ -151,7 +151,7 @@
     position: relative;
     top: 5px;
     left: 4px;
-    width: 40%;
+    width: 80%;
     background: #445de16e;
     border-radius: 4px;
     text-align: center;
@@ -171,7 +171,7 @@
     outline: none;
     border: none;
     color: black;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     margin-top: 1rem;
 }
 
@@ -202,7 +202,6 @@ input[type='checkbox']
     font-size: 1.1rem;
     margin-top: 1rem;
     color: black;
-    width: 50%;
     text-align: center;
 }
 
@@ -215,7 +214,7 @@ input[type='checkbox']
 
 @media screen and (max-width: 1329px){
     .modal-form h2{
-        font-size: 1.4rem;
+        font-size: 1.1rem;
     }
 }
 

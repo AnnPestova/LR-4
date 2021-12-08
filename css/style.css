@@ -4,6 +4,8 @@
 @import url('cards.css');
 @import url('add_post.css');
 @import url('cards_for_avtoris_person.css');
+@import url('style2.css');
+
 
 *{
     font-family: 'Nunito', sans-serif;
@@ -23,7 +25,6 @@
     width: 90%;
     max-width: 1720px;
     margin: 0 auto;
-    font-size: 25px;
 }
 
 #navbar-logo{
@@ -41,7 +42,7 @@
     grid-template-columns: repeat(3, auto);
     list-style: none;
     text-align: center;
-    width: 70%;
+    width: 100%;
     justify-self: end;
     font-size: 20px
 }
@@ -49,6 +50,8 @@
 .nav-links{
     color: white;
     text-decoration: none;
+
+
 }
 th{
     padding: 20px;
@@ -62,6 +65,7 @@ tr{
     color: #445DE1;
     transition: all 0.2s ease-out;
 }
+
 
 .nav-links-btn{
     background-color: #445DE1;
@@ -118,7 +122,6 @@ tr{
     .nav-menu{
         display: grid;
         grid-template-columns: auto;
-        background: #445DE1;
         width: 100%;
         margin: 0;
         position: absolute;
@@ -126,6 +129,7 @@ tr{
         left: -100%;
         opacity: 0;
         transition: all 0.5s ease;
+        justify-items: center;
     }
     #navbar-logo{
         margin-left: 60px;
@@ -143,11 +147,6 @@ tr{
         width: 100%;
         display: table;
     }
-    .nav-links:hover{
-        background-color: #445DE1;
-        color: white;
-        transition: all 0.4s ease-out;
-    }
     .navbar{
         width: 100%;
     }
@@ -161,13 +160,30 @@ tr{
         transition: all 0.4s ease-out;
     }
 
+    .nav-links-btn2{
+        border: none;
+        padding: 0;
+        border-radius: 0;
+        background-color: #181818;
+        color: white;
+        transition: all 0.4s ease-out;
+    }
+
     .nav-links-btn:hover{
         border: none;
         padding: 0;
         border-radius: 0;
-        background-color: #445DE1;
         color: white;
         transition: all 0.4s ease-out;
+        color: #445DE1;
+    }
+    .nav-links-btn2:hover {
+        border: none;
+        padding: 0;
+        border-radius: 0;
+        color: white;
+        transition: all 0.4s ease-out;
+        color: #445DE1;
     }
     #mobile-menu{
         position: absolute;
@@ -197,6 +213,6 @@ tr{
 @media screen and (max-width: 330px){
 
     #navbar-logo{
-        font-size: 25px;
+        font-size:2am;
     }
 }

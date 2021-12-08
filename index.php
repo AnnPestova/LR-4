@@ -1,4 +1,7 @@
-
+<?php
+require_once 'configDB.php';
+require_once 'session.start.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css">
-    <script type="text/javascript" src="js/JQuery3.3.1.js"></script>
     <title>STUD_FILES</title>
 </head>
 <body>
@@ -47,44 +49,7 @@
         </div>
     </div>
 </div>
-<table >
-    <tr>
-        <th>id_user</th>
-        <th>id_role</th>
-        <th>user_name</th>
-        <th>phone</th>
-        <th>email</th>
-        <th>password</th>
-        <th>date_of_last_visit</th>
-        <th>token</th>
-    </tr>
-<?php
-require_once 'configDB.php';
-$query = 'SELECT *  FROM `user` `u` WHERE `u`.`id_user` < :id_user';
-if (!empty($pdo)) {
-    $stmt = $pdo->prepare($query);
-    $params = [
-            'id_user' => 9
-    ];
-    $stmt->execute($params);
-    while($row = $stmt->fetch(PDO::FETCH_LAZY)){
-        ?>
-            <tr>
-                <th><?=$row->id_user?></th>
-                <th><?=$row->id_role?></th>
-                <th><?=$row->user_name?></th>
-                <th><?=$row->phone?></th>
-                <th><?=$row->email?></th>
-                <th><?=$row->password?></th>
-                <th><?=$row->date_of_last_visit?></th>
-                <th><?=$row->token?></th>
-            </tr>
 
-<?php
-    }
-}
-?>
-</table>
 <!-- Modal1 -->
 <div class="modal" id="email-modal">
     <div class="modal-content">
@@ -97,24 +62,25 @@ if (!empty($pdo)) {
                 <h2>
                     Создай аккаунт уже сейчас
                 </h2>
+                <h2 id="info-error">
+                </h2>
                 <div class="form-validation">
-                    <input type="text" class="modal-input" id="name" name="name" placeholder="Имя" required pattern="[а-яА-Я]+"
+                    <input type="text" class="modal-input" id="name" name="name_reg" placeholder="Имя" required pattern="[а-яА-Я]+"
                            title="Имя может содержать только русские буквы.">
                 </div>
                 <div class="form-validation">
-                    <input type="email" class="modal-input" id="email" name="email" placeholder="Email">
+                    <input type="email" class="modal-input" id="email" name="email_reg" placeholder="Email">
+                </div>
+                <div class="form-validation">
+                    <input type="tel" class="modal-input" id="tel" name="tel_reg" placeholder="Телефон" required pattern="^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$"
+                           title="Используйте любой существующий российский формат мобильного телефона.">
 
                 </div>
                 <div class="form-validation">
-                    <input type="tel" class="modal-input" id="tel" name="tel" placeholder="Телефон" required minlength="11" maxlength="12">
-
+                    <input type="password" class="modal-input" id="password" name="password_reg" placeholder="Пароль" required minlength="6" maxlength="128">
                 </div>
                 <div class="form-validation">
-                    <input type="password" class="modal-input" id="password" name="password" placeholder="Пароль" required minlength="6" maxlength="128">
-
-                </div>
-                <div class="form-validation">
-                    <input type="password" class="modal-input" id="password-confirm" name="password2" placeholder="Повторите пароль" required minlength="6" maxlength="128">
+                    <input type="password" class="modal-input" id="password-confirm" name="password_confirm_reg" placeholder="Повторите пароль" required minlength="6" maxlength="128">
                     <div class="error" id="passwordConfirmError"></div>
                     <div class="error1" id="passwordConfirmError1"></div>
                     <div class="box-field">
@@ -122,7 +88,7 @@ if (!empty($pdo)) {
                         <span style="color: #686567;font-size: 14px;">Я согласен на обработку персональных данных</span>
                     </div>
                 </div>
-                <button type="submit" class="modal-input-btn" id="modal-input-submit">Зарегистрироваться</button>
+                <button class="modal-input-btn" style="visibility: visible" id="modal-input-submit" disabled>Зарегистрироваться</button>
                     <span class="modal-input-login">Уже есть аккаунт? <a href="#email-modal1">Войти</a></span>
             </form>
         </div>
@@ -137,17 +103,19 @@ if (!empty($pdo)) {
             <img id="Modal-img" src="images/pic3.svg" alt="">
         </div>
         <div class="modal2-content-right">
-            <form action="/" method="GET" class="modal2-form" id="form">
+            <form class="modal2-form">
                 <h2>
                     Авторизация
                 </h2>
+                <h2 id="info-error2">
+                </h2>
                 <div class="form-validation2">
-                    <input type="tel" class="modal2-input" id="tel" name="tel" placeholder="Телефон" required minlength="11" maxlength="12">
+                    <input type="tel" class="modal2-input" name="tel_auth" placeholder="Телефон" required minlength="11" maxlength="12">
                 </div>
                 <div class="form-validation2">
-                    <input type="password" class="modal2-input" id="password" name="password" placeholder="Пароль" required minlength="6" maxlength="128">
+                    <input type="password" class="modal2-input" name="password_auth" placeholder="Пароль" required minlength="6" maxlength="128">
                 </div>
-                <a href="index1.html" class="modal2-input-btn">Войти</a>
+                <a class="modal2-input-btn" id="modal-input-submit-auth">Войти</a>
                 <span class="modal-input-login">Еще нет аккаунта? <a href="#email-modal-form">Зарегистрироваться</a></span>
             </form>
         </div>
@@ -163,15 +131,15 @@ if (!empty($pdo)) {
             <img id="Modal3-img" src="images/pic3.svg" alt="">
         </div>
         <div class="modal3-content-right">
-            <form action="/" method="GET" class="modal3-form" id="form">
+            <form class="modal3-form">
                 <h2>
                     Авторизация
                 </h2>
                 <div class="form-validation3">
-                    <input type="tel" class="modal3-input" id="tel" name="tel" placeholder="Телефон" required minlength="11" maxlength="12">
+                    <input type="tel" class="modal3-input" name="tel" placeholder="Телефон" required minlength="11" maxlength="12">
                 </div>
                 <div class="form-validation2">
-                    <input type="password" class="modal3-input" id="password" name="password" placeholder="Пароль" required minlength="8" maxlength="128">
+                    <input type="password" class="modal3-input" name="password" placeholder="Пароль" required minlength="8" maxlength="128">
                 </div>
                 <button type="submit" class="modal3-input-btn" id="submit">Войти</button>
             </form>
@@ -184,48 +152,24 @@ if (!empty($pdo)) {
 <div class="services" id="services">
     <h1>Доступные файлы</h1>
     <div class="services_wrapper">
-        <div class="services_card">
-            <h2>Название</h2>
-            <p>Дата добавления</p>
-            <div class="services_btn"><button><a href="index2.html">
-                Показать
-            </a></button></div>
-        </div>
-        <div class="services_card">
-            <h2>Название</h2>
-            <p>Дата добавления</p>
-            <div class="services_btn"><button><a href="index2.html">Показать</a></button></div>
-        </div>
-        <div class="services_card">
-            <h2>Название</h2>
-            <p>Дата добавления</p>
-            <div class="services_btn"><button><a href="index2.html">Показать</a></button></div>
-        </div>
-        <div class="services_card">
-            <h2>Название</h2>
-            <p>Дата добавления</p>
-            <div class="services_btn"><button><a href="index2.html">Показать</a></button></div>
-        </div>
-        <div class="services_card">
-            <h2>Название</h2>
-            <p>Дата добавления</p>
-            <div class="services_btn"><button><a href="index2.html">Показать</a></button></div>
-        </div>
-        <div class="services_card">
-            <h2>Название</h2>
-            <p>Дата добавления</p>
-            <div class="services_btn"><button><a href="index2.html">Показать</a></button></div>
-        </div>
-        <div class="services_card">
-            <h2>Название</h2>
-            <p>Дата добавления</p>
-            <div class="services_btn"><button><a href="index2.html">Показать</a></button></div>
-        </div>
-        <div class="services_card">
-            <h2>Название</h2>
-            <p>Дата добавления</p>
-            <div class="services_btn"><button><a href="index2.html">Показать</a></button></div>
-        </div>
+        <?php
+        $query = 'SELECT `id_post`, `name`,  `date_added` FROM `post_file` ORDER BY `id_post` DESC';
+        if (!empty($pdo)) {
+        $stmt = $pdo->prepare($query);
+        $stmt->execute();
+        while($row = $stmt->fetch(PDO::FETCH_LAZY)){
+        ?>
+            <div class="services_card">
+                <h2><?=$row->name?></h2>
+                <p><?=$row->date_added?></p>
+                <div class="services_btn"><button data-id="<?=$row->id_post?>"  class="detail_page_button">
+                            Показать</button></div>
+            </div>
+        <?php
+        }
+        }
+        ?>
+
     </div>
     <button class="btn-services"><a href="#">
         Показать ещё
@@ -250,15 +194,17 @@ if (!empty($pdo)) {
     </section>
 </div>
 <script type="text/javascript" src="js/JQuery3.3.1.js"></script>
+<script type="text/javascript" src="js/for_ajax.js"></script>
 <script type="text/javascript" src="js/app.js"></script>
 <script type="text/javascript">
     function checkCheckBoxRegistration(){
         if($('#box1').is(':checked') ) {
-            document.getElementById("modal-input-submit").style.visibility = "visible";
+            document.getElementById("modal-input-submit").removeAttribute('disabled');
         } else {
-            document.getElementById("modal-input-submit").style.visibility = "hidden";
+            document.getElementById("modal-input-submit").disabled = "disabled";
         }
     }
+
 </script>
 </body>
 </html>

@@ -25,7 +25,7 @@ session_start();
         </div>
         <ul class="nav-menu">
             <li><a href="#home" class="nav-links">Главная</a></li>
-            <li><a href="personal_page.php" class="nav-links nav-links-btn" id="reg">Здравствуйте, Анна</a></li>
+            <li><a href="personal_page.php" class="nav-links nav-links-btn" id="reg">Здравствуйте, <?=$_SESSION['user']['user_name']?></a></li>
             <li><a href="index.php" class="nav-links nav-links-btn2">Выход</a></li>
         </ul>
     </nav>
@@ -37,10 +37,12 @@ session_start();
     <h1>Мои файлы</h1>
     <div class="services_wrapper">
         <?php
-        $query = 'SELECT `id_post`, `name`,  `date_added` FROM `post_file` ORDER BY `id_post` DESC';
+        $query = 'SELECT `id_post`, `name`,  `date_added` FROM `post_file` WHERE `id_user` = :id_user ORDER BY `id_post` DESC';
         if (!empty($pdo)) {
         $stmt = $pdo->prepare($query);
-        $stmt->execute();
+        $stmt->execute([
+                'id_user' => $_SESSION['user']['id_user']
+                       ]);
         while($row = $stmt->fetch(PDO::FETCH_LAZY)){
         ?>
             <div class="services_card">
@@ -55,9 +57,6 @@ session_start();
         ?>
 
     </div>
-    <button class="btn-services"><a href="#">
-        Показать ещё
-    </a></button>
 </div>
 
 

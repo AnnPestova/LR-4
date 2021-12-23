@@ -151,15 +151,17 @@ require_once 'session.start.php';
 <!-- Cards -->
 <div class="services" id="services">
     <h1>Доступные файлы</h1>
-    <div class="services_wrapper">
+    <div id="first_wrapper" class="services_wrapper">
         <?php
-        $query = 'SELECT `id_post`, `name`,  `date_added` FROM `post_file` ORDER BY `id_post` DESC';
+        $query = 'SELECT `id_post`, `name`,  `date_added` FROM `post_file` ORDER BY `id_post` DESC LIMIT :limit';
         if (!empty($pdo)) {
         $stmt = $pdo->prepare($query);
-        $stmt->execute();
+        $stmt->execute([
+                'limit' => 2
+                       ]);
         while($row = $stmt->fetch(PDO::FETCH_LAZY)){
         ?>
-            <div class="services_card">
+            <div data-id="<?=$row->id_post?>" class="services_card">
                 <h2><?=$row->name?></h2>
                 <p><?=$row->date_added?></p>
                 <div class="services_btn"><button data-id="<?=$row->id_post?>"  class="detail_page_button">
@@ -171,7 +173,7 @@ require_once 'session.start.php';
         ?>
 
     </div>
-    <button class="btn-services"><a href="#">
+    <button class="btn-services"><a>
         Показать ещё
     </a></button>
 </div>
@@ -194,8 +196,8 @@ require_once 'session.start.php';
     </section>
 </div>
 <script type="text/javascript" src="js/JQuery3.3.1.js"></script>
-<script type="text/javascript" src="js/for_ajax.js"></script>
 <script type="text/javascript" src="js/app.js"></script>
+<script type="text/javascript" src="js/checker.js"></script>
 <script type="text/javascript">
     function checkCheckBoxRegistration(){
         if($('#box1').is(':checked') ) {

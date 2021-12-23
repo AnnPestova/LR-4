@@ -1,10 +1,9 @@
 <?php
 
 require_once '../configDB.php';
-require_once 'session.start.php';
+require_once '../session.start.php';
 
 if(!($_SESSION['token']) != NULL){
-    //Пользователь не авторизован
     $_SESSION['user']['status'] = 0;
 }
 

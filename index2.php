@@ -24,14 +24,14 @@ require_once 'configDB.php';
         </div>
         <ul class="nav-menu">
             <li><a href="#home" class="nav-links">Главная</a></li>
-            <li><a href="personal_page.php" class="nav-links nav-links-btn" id="reg">Здравствуйте, Анна</a></li>
-            <li><a href="index.php" class="nav-links nav-links-btn2">Выход</a></li>
+            <li><a href="personal_page.php" class="nav-links nav-links-btn" id="reg">Здравствуйте<?=', ' . $_SESSION['user']['user_name']?></a></li>
+            <li><a id="exit_account_button" class="nav-links nav-links-btn2">Выход</a></li>
         </ul>
     </nav>
 </div>
 <div id="main_container__detail_page">
 <?php
-$query = 'SELECT `user_name`, `name`, `date_added`, `description` FROM `post_file` `pf`, `user` `u` WHERE `id_post` = :id_post AND `u`.`id_user` = `pf`.`id_user`';
+$query = 'SELECT `user_name`, `name`, `date_added`, `description`, `link` FROM `post_file` `pf`, `user` `u` WHERE `id_post` = :id_post AND `u`.`id_user` = `pf`.`id_user`';
 if (!empty($pdo)) {
     $params = [
         'id_post' => $_SESSION['id_post']
@@ -65,9 +65,11 @@ if (!empty($pdo)) {
                     <h1><?=$row->date_added?></h1>
                     <h1><?=$row->user_name?></h1>
                 </div>
-                <button class="main-btn1">
-                    <h1 href="#">
-                        Скачать
+                <button data-url="<?=$row->link?>" class="main-btn1">
+                    <h1>
+                        <a>
+                            Скачать
+                        </a>
                     </h1>
                 </button>
             </div>
@@ -95,7 +97,8 @@ if (!empty($pdo)) {
     </section>
 </div>
 
-<script src="js/app.js">
-</script>
+<script type="text/javascript" src="js/JQuery3.3.1.js"></script>
+<script type="text/javascript" src="js/app2.js"></script>
+
 </body>
 </html>

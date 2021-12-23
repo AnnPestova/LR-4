@@ -1,5 +1,6 @@
 <?php
 require_once 'session.start.php';
+require_once 'configDB.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -58,22 +59,22 @@ require_once 'session.start.php';
             <img id="Modal3-img" src="images/pic4.svg" alt="">
         </div>
         <div class="modal3-content-right">
-            <form action="/" method="GET" class="modal3-form" id="form">
+            <form class="modal3-form" id="add_form">
                 <h2>
                     Добавьте пост уже сейчас
                 </h2>
                 <div class="form-validation3">
-                    <input type="text" class="modal3-input" id="text" name="text" placeholder="Название" required minlength="3" maxlength="20">
+                    <input type="text" class="modal3-input" id="name_add" name="text" placeholder="Название" required minlength="3" maxlength="20">
                 </div>
                 <div class="form-validation2">
-                    <textarea class="modal3-input" id="textarea" name="textarea" placeholder="Описание" required minlength="10" maxlength="150"></textarea>
+                    <textarea class="modal3-input" id="text_add" name="textarea" placeholder="Описание" required minlength="10" maxlength="150"></textarea>
                 </div>
                 <div class="example-1">
                     <div class="form-group">
                         <label class="label">
                             <i class="material-icons">attach_file</i>
                             <span class="title" style="font-size: 15px; ">Добавить файл</span>
-                            <input type="file">
+                            <input id="file_add" type="file">
                         </label>
                      </div>
                 </div>
@@ -87,49 +88,28 @@ require_once 'session.start.php';
 <div class="services1" id="services">
     <h1>Доступные файлы</h1>
     <button class="btn-services2" style="color: white;">Добавить пост</button>
-    <div class="services_wrapper1">
-        <div class="services1_card">
-            <h2>Название</h2>
-            <p>Дата добавления</p>
-            <div class="services1_btn"><button><a href="index2.php">Показать</a></button></div>
-        </div>
-        <div class="services1_card">
-            <h2>Название</h2>
-            <p>Дата добавления</p>
-            <div class="services1_btn"><button><a href="index2.php">Показать</a></button></div>
-        </div>
-        <div class="services1_card">
-            <h2>Название</h2>
-            <p>Дата добавления</p>
-            <div class="services1_btn"><button><a href="index2.php">Показать</a></button></div>
-        </div>
-        <div class="services1_card">
-            <h2>Название</h2>
-            <p>Дата добавления</p>
-            <div class="services1_btn"><button><a href="index2.php">Показать</a></button></div>
-        </div>
-        <div class="services1_card">
-            <h2>Название</h2>
-            <p>Дата добавления</p>
-            <div class="services1_btn"><button><a href="index2.php">Показать</a></button></div>
-        </div>
-        <div class="services1_card">
-            <h2>Название</h2>
-            <p>Дата добавления</p>
-            <div class="services1_btn"><button><a href="index2.php">Показать</a></button></div>
-        </div>
-        <div class="services1_card">
-            <h2>Название</h2>
-            <p>Дата добавления</p>
-            <div class="services1_btn"><button><a href="index2.php">Показать</a></button></div>
-        </div>
-        <div class="services1_card">
-            <h2>Название</h2>
-            <p>Дата добавления</p>
-            <div class="services1_btn"><button><a href="index2.php">Показать</a></button></div>
-        </div>
+    <div id="second_wrapper" class="services_wrapper1">
+        <?php
+        $query = 'SELECT `id_post`, `name`,  `date_added` FROM `post_file` ORDER BY `id_post` DESC LIMIT :limit';
+        if (!empty($pdo)) {
+            $stmt = $pdo->prepare($query);
+            $stmt->execute([
+                               'limit' => 2
+                           ]);
+            while($row = $stmt->fetch(PDO::FETCH_LAZY)){
+                ?>
+                <div data-id="<?=$row->id_post?>" class="services1_card">
+                    <h2><?=$row->name?></h2>
+                    <p><?=$row->date_added?></p>
+                    <div class="services1_btn"><button data-id="<?=$row->id_post?>"  class="detail_page_button">
+                            Показать</button></div>
+                </div>
+                <?php
+            }
+        }
+        ?>
     </div>
-    <button class="btn-services1"><a href="#">Показать ещё</a></button>
+    <button class="btn-services1"><a>Показать ещё</a></button>
 </div>
 
 <!-- Footer -->
@@ -149,7 +129,25 @@ require_once 'session.start.php';
     </section>
 </div>
 <script type="text/javascript" src="js/JQuery3.3.1.js"></script>
-<script src="js/app2.js">
+<script src="js/app2.js"></script>
+<script src="js/add.js"></script>
+<script type="text/javascript">
+    const modal11 = document.getElementById('4email-modal');
+    const openBtn11 = document.querySelector('.btn-services2');
+    const closeBtn3 = document.querySelector('.close-btn3');
+
+    openBtn11.addEventListener('click',() => {
+        modal11.style.display = 'block';
+    });
+    closeBtn3.addEventListener('click',() => {
+        modal11.style.display = 'none';
+    });
+
+    window.addEventListener('click',(e) => {
+        if(e.target === modal11){
+            modal11.style.display = 'none';
+        }
+    })
 </script>
 </body>
 </html>
